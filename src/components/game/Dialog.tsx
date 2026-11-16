@@ -7,14 +7,18 @@ export const DIALOG_TITLE_ID = 'dTitle';
 interface Props {
   open: boolean;
   onClose: () => void;
+  /** Cambia cuando cambia el contenido (p. ej. del menú a un capítulo) para volver a enfocar "Cerrar". */
+  contentKey?: string;
   children: ReactNode;
 }
 
 const FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled])';
 
 /** Diálogo modal: foco en "Cerrar" al abrir, Escape y clic afuera cierran, Tab queda atrapado, y el foco vuelve al cerrar. */
-export default function Dialog({ open, onClose, children }: Props) {
+export default function Dialog({ open, onClose, contentKey, children }: Props) {
   const closeRef = useRef<HTMLButtonElement>(null);
+  /** El cierre por clic afuera solo vale si el toque/clic EMPEZÓ en el fondo. */
+  const downOnBackdrop = useRef(false);
   const onCloseRef = useRef(onClose);
   useEffect(() => { onCloseRef.current = onClose; });
 
@@ -32,6 +36,10 @@ export default function Dialog({ open, onClose, children }: Props) {
     };
   }, [open]);
 
+  useEffect(() => {
+    if (open) closeRef.current?.focus();
+  }, [open, contentKey]);
+
   if (!open) return null;
 
   const trapTab = (e: KeyboardEvent<HTMLDivElement>) => {
@@ -46,7 +54,13 @@ export default function Dialog({ open, onClose, children }: Props) {
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(5,7,14,.72)] p-3.5"
-      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+      // En celulares, un toque que abre el diálogo (botón E) genera después un "click" en el mismo
+      // lugar, que caería sobre el fondo. Por eso se exige que el gesto haya empezado en el fondo.
+      onPointerDown={(e) => { downOnBackdrop.current = e.target === e.currentTarget; }}
+      onClick={(e) => {
+        if (downOnBackdrop.current && e.target === e.currentTarget) onClose();
+        downOnBackdrop.current = false;
+      }}
       onKeyDown={trapTab}
     >
       <div

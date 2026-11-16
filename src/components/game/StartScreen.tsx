@@ -12,11 +12,12 @@ interface Props {
 /** Pantalla de inicio (se oculta al empezar). */
 export default function StartScreen({ onPlay, onReading, onBoard, onCv }: Props) {
   return (
-    <div className="fixed inset-0 z-40 flex items-center justify-center overflow-auto bg-[radial-gradient(circle_at_50%_30%,#1E2A55_0%,#0E1220_70%)] p-3.5">
+    // `m-auto` en vez de centrar con flex: si la tarjeta es más alta que la pantalla, se puede scrollear hasta arriba.
+    <div className="fixed inset-0 z-40 flex overflow-auto bg-[radial-gradient(circle_at_50%_30%,#1E2A55_0%,#0E1220_70%)] p-3.5">
       <div
         role="dialog"
         aria-labelledby="introTitle"
-        className="flex w-[min(820px,100%)] flex-wrap items-center gap-7 border-4 border-white bg-panel p-[30px] shadow-[10px_10px_0_#000] outline-4 outline-black"
+        className="m-auto flex w-[min(820px,100%)] flex-wrap items-center gap-7 border-4 border-white bg-panel p-[30px] shadow-[10px_10px_0_#000] outline-4 outline-black"
       >
         <div className="flex min-w-0 flex-1 basis-[340px] flex-col gap-4">
           <span className="px text-xs leading-[1.7] text-sky">{INTRO.kicker}</span>
@@ -31,15 +32,17 @@ export default function StartScreen({ onPlay, onReading, onBoard, onCv }: Props)
             <button type="button" className="btn" onClick={onBoard}>RÉCORDS</button>
             <button type="button" className="btn" onClick={onCv}>CV</button>
           </div>
-          <span className="px text-[9px] leading-loose text-[#BFC6DA]">{INTRO.keys}</span>
-          <span className="px blink text-[9px] leading-loose text-[#BFC6DA]">{INTRO.start}</span>
+          <span className="px text-[9px] leading-loose text-[#BFC6DA] pointer-coarse:hidden">{INTRO.keys}</span>
+          <span className="px hidden text-[9px] leading-loose text-[#BFC6DA] pointer-coarse:inline">{INTRO.touchKeys}</span>
+          <span className="px blink text-[9px] leading-loose text-[#BFC6DA] pointer-coarse:hidden">{INTRO.start}</span>
         </div>
-        <figure className="m-0 flex-[0_0_200px]">
+        <figure className="m-0 flex-[0_0_200px] max-[520px]:order-first max-[520px]:flex-[0_0_120px]">
           <Image
             src={retrato}
             alt={PROFILE.portraitAlt}
             width={200}
             priority
+            sizes="(max-width: 520px) 120px, 200px"
             className="block w-full border-4 border-white shadow-[6px_6px_0_#000]"
           />
         </figure>

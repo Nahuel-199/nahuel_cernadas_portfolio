@@ -1,7 +1,7 @@
 import { GameAudio, type Sfx } from './audio';
 import { createBoss, resetBoss, updateBoss, BOSS_HP } from './boss';
 import { Camera } from './camera';
-import { CANVAS_H, CANVAS_W, H, MAX_DT, PLAYER_PHYS, PLAYER_SIZE, T } from './constants';
+import { CANVAS_H, CANVAS_W, H, MAX_DT, PLAYER_PHYS, PLAYER_SIZE, SC, T } from './constants';
 import { addBurst, addPopup, updateParticles, updatePopups } from './effects';
 import { createEnemies, updateEnemies } from './enemies';
 import { Input, keyToAction, type Action } from './input';
@@ -82,7 +82,7 @@ export class GameEngine {
   private destroyed = false;
   private listeners = new Map<keyof GameEvents, Set<AnyListener>>();
 
-  constructor(canvas: HTMLCanvasElement, private readonly opts: EngineOptions) {
+  constructor(private readonly canvas: HTMLCanvasElement, private readonly opts: EngineOptions) {
     canvas.width = CANVAS_W;
     canvas.height = CANVAS_H;
     const ctx = canvas.getContext('2d');
@@ -181,6 +181,16 @@ export class GameEngine {
 
   setMuted(muted: boolean): void {
     this.audio.setMuted(muted);
+  }
+
+  /**
+   * Ancho lógico de la vista (por defecto 400). Más angosto en celular vertical para agrandar el juego.
+   * Solo cambia la cámara y el tamaño del canvas: la física y los enemigos usan siempre el ancho original.
+   */
+  setViewWidth(w: number): void {
+    if (w === this.camera.viewW) return;
+    this.camera.viewW = w;
+    this.canvas.width = w * SC;
   }
 
   /** Controles táctiles. */

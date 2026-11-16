@@ -35,6 +35,8 @@ export const INTRO = {
   text:
     'Mi carrera convertida en un nivel de plataformas. Cada puerta es un capítulo. Aplastá bugs, golpeá los bloques </> para juntar mi stack, buscá la notebook en los bloques azules para pasar a modo Senior, vencé al jefe final y llegá a la bandera lo más rápido que puedas.',
   keys: '← → MOVERSE · ESPACIO SALTAR · SHIFT CORRER · E / ↓ ENTRAR',
+  /** Equivalente táctil de `keys` (mismos controles, con los botones de pantalla). */
+  touchKeys: '◀ ▶ MOVERSE · A SALTAR · E ENTRAR',
   start: 'PRESIONÁ ENTER PARA EMPEZAR',
 } as const;
 

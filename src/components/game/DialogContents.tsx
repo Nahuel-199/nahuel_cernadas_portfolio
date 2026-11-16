@@ -59,3 +59,31 @@ export function CvDialog() {
     </div>
   );
 }
+
+interface MenuProps {
+  started: boolean;
+  muted: boolean;
+  onReading: () => void;
+  onCv: () => void;
+  onBoard: () => void;
+  onRestart: () => void;
+  onToggleMute: () => void;
+}
+
+/** Menú del HUD compacto: las mismas acciones que los botones del HUD de escritorio. */
+export function MenuDialog({ started, muted, onReading, onCv, onBoard, onRestart, onToggleMute }: MenuProps) {
+  return (
+    <div className="flex flex-col gap-3.5">
+      <h2 id={DIALOG_TITLE_ID} className="dialog-title">Menú</h2>
+      <div className="flex flex-col gap-2.5">
+        <button type="button" className="btn" onClick={onReading}>MODO LECTURA</button>
+        <button type="button" className="btn btn-gold" onClick={onCv}>CV</button>
+        <button type="button" className="btn" onClick={onBoard}>RÉCORDS</button>
+        {started && <button type="button" className="btn" onClick={onRestart}>↺ REINICIAR JUEGO</button>}
+        <button type="button" className="btn" onClick={onToggleMute} aria-pressed={muted}>
+          {muted ? '✕ SONIDO DESACTIVADO' : '♪ SONIDO ACTIVADO'}
+        </button>
+      </div>
+    </div>
+  );
+}
