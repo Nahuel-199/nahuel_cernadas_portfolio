@@ -6,11 +6,11 @@ import { T } from './constants';
 type Palette = Readonly<Record<string, string>>;
 export type PlayerPose = 'idle' | 'run1' | 'run2' | 'jump';
 
-const PAL: Palette = {
+export const PAL: Palette = {
   H: '#2B1C14', h: '#4A3324', S: '#F2C9A6', s: '#D9A47F', G: '#B9C7D6', E: '#1A1A1A', W: '#FFFFFF', B: '#5E4334', m: '#9A4F45',
   T: '#1C1C1C', t: '#3B3B3B', Y: '#F7C948', J: '#2F4E85', j: '#223A63', K: '#101010', R: '#E5484D',
 };
-const HEAD = [
+export const HEAD = [
   '.....HHHHHH.....',
   '...HHHhHHHHHH...',
   '..HHHHHHHhHHHH..',

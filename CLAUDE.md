@@ -18,10 +18,16 @@ Etapa 4: `@upstash/redis` para `/api/scores`. Deploy en Vercel.
 - `src/components/game/Game.tsx`: componente cliente que monta el canvas y el motor.
 - `src/content/chapters.ts`: textos de los capítulos (etapa 2).
 - `src/app/fonts.ts`: Press Start 2P y Archivo con `next/font/google`.
+- `src/app/lectura/`: versión de solo texto (SEO). `src/lib/site.ts`: URL del sitio y metadata compartida.
+- `src/app/api/scores/route.ts`: GET top 10 / POST récord. Validación en `src/lib/scores.ts` (compartida con el cliente), Redis en `src/lib/scores-server.ts`. Un jugador = secreto anónimo en localStorage; en Redis se guarda solo su hash.
+
+## Variables de entorno (`.env`, ignorado por git)
+- `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`: tabla compartida. Sin ellas la API responde 503 y el juego guarda récords en el navegador.
+- `NEXT_PUBLIC_SITE_URL` (opcional): URL pública; si falta usa `VERCEL_PROJECT_PRODUCTION_URL` o `https://nahuelcernadas.vercel.app`.
 
 ## Reglas
 - No agregar dependencias sin preguntar.
 - No inventar datos: todo texto/dato sale del prototipo, de `docs/cv/` o del usuario.
 - Mantener el comportamiento idéntico al prototipo: mismos números de física y mismo orden de update.
-- Trabajo por etapas: commit al terminar cada una y frenar para revisión.
+- Trabajo por etapas: frenar al terminar cada una para revisión. No commitear hasta que el usuario lo pida (al final de todo).
 - UI y textos en español rioplatense.

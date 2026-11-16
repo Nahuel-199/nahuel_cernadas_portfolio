@@ -4,6 +4,8 @@ import { ARENA } from './level';
 export class Camera {
   x = 0;
   shakeT = 0;
+  /** prefers-reduced-motion: la sacudida no se dibuja (la lógica no cambia). */
+  reduceMotion = false;
 
   reset(): void {
     this.x = 0;
@@ -26,7 +28,7 @@ export class Camera {
 
   /** Desplazamiento aleatorio de la sacudida, o null si no hay. */
   shakeOffset(): [number, number] | null {
-    if (this.shakeT <= 0) return null;
+    if (this.shakeT <= 0 || this.reduceMotion) return null;
     return [Math.round((Math.random() - 0.5) * 4), Math.round((Math.random() - 0.5) * 3)];
   }
 }

@@ -44,6 +44,8 @@ export class GameAudio {
   play(type: Sfx): void {
     const ac = this.ctx;
     if (this.muted || !ac) return;
+    // Los navegadores suspenden el contexto al pasar a segundo plano (y iOS al bloquear la pantalla).
+    if (ac.state === 'suspended') ac.resume().catch(() => {});
     const now = ac.currentTime;
 
     const arp = ARPEGGIOS[type];

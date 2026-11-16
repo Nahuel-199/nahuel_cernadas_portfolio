@@ -135,6 +135,8 @@ export interface LevelResult {
 }
 
 export interface GameEvents {
+  /** La partida empezó (botón JUGAR o Enter). */
+  start: null;
   hud: HudState;
   /** Capítulo de la puerta cercana, o null si no hay ninguna. */
   door: number | null;

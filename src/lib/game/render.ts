@@ -6,11 +6,17 @@ import type { GameEngine } from './engine';
 import type { Sprites } from './sprites';
 
 export class Renderer {
+  private readonly sky: CanvasGradient;
+
   constructor(
     private readonly ctx: CanvasRenderingContext2D,
     private readonly spr: Sprites,
     private readonly font: string,
-  ) {}
+  ) {
+    this.sky = ctx.createLinearGradient(0, 0, 0, VH);
+    this.sky.addColorStop(0, '#5FB1F5');
+    this.sky.addColorStop(1, '#BFE6FF');
+  }
 
   draw(g: GameEngine): void {
     const ctx = this.ctx;
@@ -45,9 +51,7 @@ export class Renderer {
 
   private drawBackground(cam: number): void {
     const ctx = this.ctx;
-    const g = ctx.createLinearGradient(0, 0, 0, VH);
-    g.addColorStop(0, '#5FB1F5'); g.addColorStop(1, '#BFE6FF');
-    ctx.fillStyle = g; ctx.fillRect(0, 0, VW, VH);
+    ctx.fillStyle = this.sky; ctx.fillRect(0, 0, VW, VH);
 
     // nubes
     const span = W * T * 0.3;

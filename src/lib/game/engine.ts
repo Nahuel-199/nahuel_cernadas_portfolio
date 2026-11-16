@@ -26,6 +26,8 @@ type AnyListener = (payload: never) => void;
 export interface EngineOptions {
   /** `font-family` de Press Start 2P (de next/font) para los textos del canvas. */
   fontFamily: string;
+  /** Sin sacudidas de pantalla (prefers-reduced-motion). */
+  reduceMotion?: boolean;
 }
 
 function createPlayer(): Player {
@@ -87,6 +89,7 @@ export class GameEngine {
     if (!ctx) throw new Error('Canvas 2D no disponible');
     ctx.imageSmoothingEnabled = false;
     this.renderer = new Renderer(ctx, createSprites(), opts.fontFamily);
+    this.camera.reduceMotion = !!opts.reduceMotion;
     this.reset();
   }
 
@@ -146,6 +149,7 @@ export class GameEngine {
     this.paused = false;
     this.audio.init();
     this.last = performance.now();
+    this.emit('start', null);
   }
 
   /** Un diálogo se abrió: pausa y suelta las teclas. */
